@@ -1,38 +1,77 @@
-/*
- * Create a list that holds all of your cards
+// shuffle function
+
+// checkmatch function
+
+// keep score
+
+//reset game
+
+// star rating
+
+// timer 
+
+//move counter
+
+/**list of 16 cards / 8 pairs / 8 types
+ - make list 
+ - 2 of each type 
+ 
+ class card
+ - has a type
+
+ - [ array of types ]
+ for each type, make 2 cards 'generateCards()'
+ - [ array of cards in order ]
+ - shuffleCards() will shuffle the cards
+ - [ shuffled cards ]
+ - attach cards to i elements via class
  */
 
+(function () {
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    class CardManager {
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+
+        constructor(types, cards) {
+            this.types = [
+                'fa-diamond',
+                'fa-paper-plane-o',
+                'fa-anchor',
+                'fa-bolt',
+                'fa-cube',
+                'fa-leaf',
+                'fa-bicycle',
+                'fa-bomb'
+            ]
+        }
+
+        generateCards() {
+            //get copy of types, push types and copy to cards
+            const copy = this.types.slice();
+            this.cards = [...this.types, ...copy]
+        }
+
+        shuffleCards() {
+            let counter = this.cards.length;
+
+            while (counter > 0) {
+                // pick random idx
+                let index = Math.floor(Math.random() * counter);
+
+                // decrement counter
+                counter--;
+
+                // swap last element with it
+                let temp = this.cards[counter];
+                this.cards[counter] = this.cards[index];
+                this.cards[index] = temp;
+            }
+        }
     }
 
-    return array;
-}
+    const t = new CardManager();
+    t.generateCards();
+    t.shuffleCards();
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+})();
