@@ -25,14 +25,13 @@
  - shuffleCards() will shuffle the cards
  - [ shuffled cards ]
  - attach cards to i elements via class
- */
 
+ if card is clicked, add open show class
+ */
 (function () {
 
 
     class CardManager {
-
-
         constructor(types, cards) {
             this.types = [
                 'fa-diamond',
@@ -68,10 +67,69 @@
                 this.cards[index] = temp;
             }
         }
+
+        attachClassToCard() {
+            const deck = document.querySelector('.deck').querySelectorAll('i');
+
+            let length = deck.length;
+            let className;
+
+            for (let i = 0; i < length; i++) {
+                className = this.cards[i];
+                deck[i].classList.add(className);
+            }
+        }
     }
 
-    const t = new CardManager();
-    t.generateCards();
-    t.shuffleCards();
+    class Game {
+        constructor(previousId, cardClickCount) {
+            this.cardClickCount = 0;
+        }
+
+        init() {
+            const cardManager = new CardManager();
+            cardManager.generateCards();
+            cardManager.shuffleCards();
+            cardManager.attachClassToCard();
+        }
+
+        onClick() {
+            const deck = document.querySelector('.deck');
+
+            deck.addEventListener('click', (event) => {
+                if (event.target.className === 'card') {
+                    event.target.classList.add('show', 'open');
+                    this.cardClickCount++;
+                    
+                    if (this.cardClickCount % 2 === 0) {
+                        this.checkMatch(this.previousId, event.target.id);
+                    } else {
+                        this.previousId = event.target.id;
+                    }   
+
+                }
+                // event.target.classList.add('show', 'open');
+            });
+        }
+
+        checkMatch(prevId, currId) {
+            const choice1Card = document.getElementById(prevId);
+            const choice2Card = document.getElementById(currId);
+            const choice1Class = document.getElementById(prevId).getElementsByClassName('fa')[0].classList[1];
+            const choice2Class = document.getElementById(currId).getElementsByClassName('fa')[0].classList[1];
+            
+            
+            if (choice1Class === choice2Class) {
+                return;
+            } else {
+                choice1Card.classList.remove('open', 'show');
+                choice2Card.classList.remove('open', 'show');
+            }
+        }
+    }
+
+    const game = new Game();
+    game.init();
+    game.onClick();
 
 })();
