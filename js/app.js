@@ -84,6 +84,11 @@
     class Game {
         constructor(previousId, cardClickCount) {
             this.cardClickCount = 0;
+            this.seconds = 0;
+            this.timer;
+            this.moves = 0;
+            this.wrongMoves = 0;
+            this.starIdx = 5;
         }
 
         init() {
@@ -91,6 +96,8 @@
             cardManager.generateCards();
             cardManager.shuffleCards();
             cardManager.attachClassToCard();
+            this.startTimer();
+            this.showMoves();
         }
 
         onClick() {
@@ -100,12 +107,12 @@
                 if (event.target.className === 'card') {
                     event.target.classList.add('show', 'open');
                     this.cardClickCount++;
-                    
+
                     if (this.cardClickCount % 2 === 0) {
                         this.checkMatch(this.previousId, event.target.id);
                     } else {
                         this.previousId = event.target.id;
-                    }   
+                    }
 
                 }
                 // event.target.classList.add('show', 'open');
@@ -117,13 +124,69 @@
             const choice2Card = document.getElementById(currId);
             const choice1Class = document.getElementById(prevId).getElementsByClassName('fa')[0].classList[1];
             const choice2Class = document.getElementById(currId).getElementsByClassName('fa')[0].classList[1];
-            
-            
+            this.trackMoves();
+
             if (choice1Class === choice2Class) {
                 return;
             } else {
-                choice1Card.classList.remove('open', 'show');
-                choice2Card.classList.remove('open', 'show');
+                this.wrongMoves++;
+                this.showMoves();
+                this.determineStars();
+                setTimeout(() => {
+                    choice1Card.classList.remove('open', 'show');
+                    choice2Card.classList.remove('open', 'show');
+                }, 500);
+
+            }
+        }
+
+        trackMoves() {
+            this.moves++;
+        }
+
+        showMoves() {
+            const moves = document.querySelector(".moves");
+
+            moves.innerHTML = this.moves;
+        }
+
+        startTimer() {
+            const timer = document.querySelector(".timer");
+            this.timer = setInterval(() => {
+                this.seconds++
+                timer.innerHTML = this.seconds;
+            }, 1000);
+        }
+
+        determineStars() {
+            let stars;
+            
+            switch (this.moves) {
+
+                case 3:
+
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    break;
+                case 6:
+                    this.starIdx--;
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    break;
+                case 9:
+                    this.starIdx--;
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    break;
+                case 12:
+                    this.starIdx--;
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    break;
+                case 15:
+                    this.starIdx--;
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    break;
+                case 18:
+                    this.starIdx--;
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    break;
             }
         }
     }
