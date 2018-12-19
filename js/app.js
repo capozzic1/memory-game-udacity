@@ -1,33 +1,4 @@
-// shuffle function
 
-// checkmatch function
-
-// keep score
-
-//reset game
-
-// star rating
-
-// timer 
-
-//move counter
-
-/**list of 16 cards / 8 pairs / 8 types
- - make list 
- - 2 of each type 
- 
- class card
- - has a type
-
- - [ array of types ]
- for each type, make 2 cards 'generateCards()'
- - [ array of cards in order ]
- - shuffleCards() will shuffle the cards
- - [ shuffled cards ]
- - attach cards to i elements via class
-
- if card is clicked, add open show class
- */
 (function () {
 
 
@@ -87,8 +58,11 @@
             this.seconds = 0;
             this.timer;
             this.moves = 0;
+            this.correct = 0;
             this.wrongMoves = 0;
             this.starIdx = 5;
+            this.stars = 5;
+            this.ended = false;
         }
 
         init() {
@@ -98,6 +72,7 @@
             cardManager.attachClassToCard();
             this.startTimer();
             this.showMoves();
+            this.onRestart();
         }
 
         onClick() {
@@ -119,6 +94,12 @@
             });
         }
 
+        onRestart() {
+            const button = document.querySelector('.restart');
+
+            button.addEventListener('click', this.restart);
+        }
+
         checkMatch(prevId, currId) {
             const choice1Card = document.getElementById(prevId);
             const choice2Card = document.getElementById(currId);
@@ -127,6 +108,8 @@
             this.trackMoves();
 
             if (choice1Class === choice2Class) {
+                this.correct++;
+                this.showScore();
                 return;
             } else {
                 this.wrongMoves++;
@@ -150,12 +133,29 @@
             moves.innerHTML = this.moves;
         }
 
-        startTimer() {
+        startTimer(status) {
+     
             const timer = document.querySelector(".timer");
             this.timer = setInterval(() => {
+                if (this.ended) {
+                    clearInterval(this.timer);
+                }
                 this.seconds++
                 timer.innerHTML = this.seconds;
             }, 1000);
+        }
+
+        restart() {
+            
+            this.stars = 0;
+            clearInterval(this.timer);
+            this.ended = true;
+            const cardList = document.querySelector('.deck').getElementsByTagName('li');
+            // const stars = document.querySelectorAll(`.stars li`)[0].style.visibility = 'hidden';
+            
+            for (let i = 0; i < cardList.length; i++) {
+                document.querySelector('.deck').getElementsByTagName('li')[i].classList.remove('show','open');
+            }
         }
 
         determineStars() {
@@ -164,31 +164,38 @@
             switch (this.moves) {
 
                 case 3:
-
+                    this.stars = 4;
                     document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
                     break;
                 case 6:
                     this.starIdx--;
+                    this.stars = 3;
                     document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
                     break;
                 case 9:
                     this.starIdx--;
+                    this.stars = 2;
                     document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
                     break;
                 case 12:
                     this.starIdx--;
+                    this.stars = 1;
                     document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
                     break;
-                case 15:
-                    this.starIdx--;
-                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
-                    break;
-                case 18:
-                    this.starIdx--;
-                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
-                    break;
+    
             }
         }
+
+        showScore() {
+            if (this.correct === 8) {
+                const winString = `Congratulations. You win. Star rating: ${this.stars}. You took ${this.seconds} seconds.`
+                if (confirm(winString)) {
+                    //this.restart();
+                }
+            }
+        } 
+
+        
     }
 
     const game = new Game();
