@@ -1,0 +1,29 @@
+[33mcommit 769f295b06853c17b1d884911ce1e75ca2d02085[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Chris <capozzic1@gmail.com>
+Date:   Tue Dec 18 19:50:32 2018 -0600
+
+    updated restart functionality
+
+[33mcommit 417bdb6105994157cd8ee92636ce88fec568d01c[m
+Author: Chris <capozzic1@gmail.com>
+Date:   Mon Dec 17 21:47:10 2018 -0600
+
+    added in rating, timer, and move counter
+
+[33mcommit f37d5f7418024a40bd60e9b71c8e98c58318af6f[m
+Author: Chris <capozzic1@gmail.com>
+Date:   Sun Dec 16 15:30:54 2018 -0600
+
+    added in check match function, game class
+
+[33mcommit 6447d131c49ada8441b77dcae05ea53939cdb9b5[m
+Author: Chris <capozzic1@gmail.com>
+Date:   Sat Dec 15 17:48:53 2018 -0600
+
+    added in shuffle method
+
+[33mcommit 104f507c8debe833d9f357f00e8d6348f18c87c6[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Richard Kalehoff <richardkalehoff@gmail.com>
+Date:   Thu Aug 17 13:55:35 2017 -0700
+
+    Initial commit

@@ -17,7 +17,8 @@ body {
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: #ffffff url('../img/geometry2.png');
+    /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
 }
 
@@ -31,6 +32,19 @@ body {
 h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
+}
+
+
+@media screen and (max-width: 767px) {
+    .deck {
+        min-height: 400px !important;
+        width: 90% !important;
+    }
+
+    .card {
+        height: 50px !important;
+        width: 50px !important;
+    }
 }
 
 /*

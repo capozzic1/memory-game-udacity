@@ -1,4 +1,3 @@
-
 (function () {
 
 
@@ -54,6 +53,7 @@
 
     class Game {
         constructor(previousId, cardClickCount) {
+            
             this.cardClickCount = 0;
             this.seconds = 0;
             this.timer;
@@ -63,16 +63,18 @@
             this.starIdx = 5;
             this.stars = 5;
             this.ended = false;
+            this.cardManager = new CardManager();
         }
 
         init() {
-            const cardManager = new CardManager();
-            cardManager.generateCards();
-            cardManager.shuffleCards();
-            cardManager.attachClassToCard();
+
+            this.cardManager.generateCards();
+            this.cardManager.shuffleCards();
+            this.cardManager.attachClassToCard();
             this.startTimer();
             this.showMoves();
             this.onRestart();
+            this.onClick();
         }
 
         onClick() {
@@ -90,14 +92,13 @@
                     }
 
                 }
-                // event.target.classList.add('show', 'open');
             });
         }
 
         onRestart() {
             const button = document.querySelector('.restart');
 
-            button.addEventListener('click', this.restart);
+            button.addEventListener('click', () => this.restart());
         }
 
         checkMatch(prevId, currId) {
@@ -110,6 +111,7 @@
             if (choice1Class === choice2Class) {
                 this.correct++;
                 this.showScore();
+                this.showMoves();
                 return;
             } else {
                 this.wrongMoves++;
@@ -128,39 +130,47 @@
         }
 
         showMoves() {
+
             const moves = document.querySelector(".moves");
 
             moves.innerHTML = this.moves;
         }
 
         startTimer(status) {
-     
+
             const timer = document.querySelector(".timer");
             this.timer = setInterval(() => {
-                if (this.ended) {
-                    clearInterval(this.timer);
-                }
+
                 this.seconds++
                 timer.innerHTML = this.seconds;
             }, 1000);
         }
 
         restart() {
-            
-            this.stars = 0;
-            clearInterval(this.timer);
-            this.ended = true;
+
+            this.stars = 5;
+            this.seconds = 0;
+            this.moves = 0;
+            this.correct = 0;
+            this.starIdx = 5;
+            this.cardClickCount = 0;
+            this.showMoves();
+            this.previousId = null;
+
             const cardList = document.querySelector('.deck').getElementsByTagName('li');
-            // const stars = document.querySelectorAll(`.stars li`)[0].style.visibility = 'hidden';
-            
-            for (let i = 0; i < cardList.length; i++) {
-                document.querySelector('.deck').getElementsByTagName('li')[i].classList.remove('show','open');
+            const starList = document.querySelector('.stars').getElementsByTagName('i');
+
+            for (let card of cardList) {
+                card.classList.remove('show', 'open');
+            }
+
+            for (let star of starList) {
+                star.style.visibility = 'visible';
             }
         }
 
         determineStars() {
-            let stars;
-            
+
             switch (this.moves) {
 
                 case 3:
@@ -182,24 +192,26 @@
                     this.stars = 1;
                     document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
                     break;
-    
+
             }
         }
 
         showScore() {
             if (this.correct === 8) {
-                const winString = `Congratulations. You win. Star rating: ${this.stars}. You took ${this.seconds} seconds.`
-                if (confirm(winString)) {
-                    //this.restart();
-                }
-            }
-        } 
+                setTimeout(() => {
+                    const winString = `Congratulations. You win. Star rating: ${this.stars}. You took ${this.seconds} seconds.`
+                    if (confirm(winString)) {
+                        this.restart();
+                    }
+                }, 500);
 
-        
+            }
+        }
+
+
     }
 
     const game = new Game();
     game.init();
-    game.onClick();
 
 })();
