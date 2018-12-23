@@ -22,20 +22,26 @@ body {
     font-family: 'Coda', cursive;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
+@media only screen and (min-width: 1440px) {
+    .card {
+        margin-top: 2%;
+    }
+    
 }
+
 
 h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
 
+.score-container {
+    font-size: 1.5em;
+}
 
-@media screen and (max-width: 767px) {
+
+/* @media screen and (max-width: 767px) {
     .deck {
         min-height: 400px !important;
         width: 90% !important;
@@ -45,37 +51,37 @@ h1 {
         height: 50px !important;
         width: 50px !important;
     }
-}
+} */
 
 /*
  * Styles for the deck of cards
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+  
+    justify-content: center;
+    padding: 5%;
+    align-items: center;
+    min-height: 30em;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 3em;
+
 }
 
 .deck .card {
-    height: 125px;
-    width: 125px;
+
+    height: 80px;
+    margin-right: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #2e3d49;
     font-size: 0;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
 
@@ -99,11 +105,6 @@ h1 {
  * Styles for the Score Panel
  */
 
-.score-panel {
-    text-align: left;
-    width: 345px;
-    margin-bottom: 10px;
-}
 
 .score-panel .stars {
     margin: 0;

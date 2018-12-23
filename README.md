@@ -6,5 +6,5 @@ To run this project, simply click on the index.html file in a Chrome browser(pre
 
 ## How to play
 
-Make two cards match by clicking on a card.
+Make two cards match by clicking on a card. Match all pairs of cards to win.
 

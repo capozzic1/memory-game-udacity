@@ -53,7 +53,7 @@
 
     class Game {
         constructor(previousId, cardClickCount) {
-            
+
             this.cardClickCount = 0;
             this.seconds = 0;
             this.timer;
@@ -81,7 +81,7 @@
             const deck = document.querySelector('.deck');
 
             deck.addEventListener('click', (event) => {
-                if (event.target.className === 'card') {
+                if (event.target.className.includes('card')) {
                     event.target.classList.add('show', 'open');
                     this.cardClickCount++;
 
@@ -156,16 +156,17 @@
             this.cardClickCount = 0;
             this.showMoves();
             this.previousId = null;
+            $('#winModal').modal('hide');
 
-            const cardList = document.querySelector('.deck').getElementsByTagName('li');
-            const starList = document.querySelector('.stars').getElementsByTagName('i');
+            const cardList = document.querySelector('.deck').getElementsByTagName('div');
+            const starList = document.querySelector('.stars').getElementsByTagName('li');
 
             for (let card of cardList) {
                 card.classList.remove('show', 'open');
             }
 
             for (let star of starList) {
-                star.style.visibility = 'visible';
+                star.style.display = 'inline';
             }
         }
 
@@ -175,22 +176,22 @@
 
                 case 3:
                     this.stars = 4;
-                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.display = 'none';
                     break;
                 case 6:
                     this.starIdx--;
                     this.stars = 3;
-                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.display = 'none';
                     break;
                 case 9:
                     this.starIdx--;
                     this.stars = 2;
-                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.display = 'none';
                     break;
                 case 12:
                     this.starIdx--;
                     this.stars = 1;
-                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.visibility = 'hidden';
+                    document.querySelectorAll(`.stars li:nth-child(${this.starIdx})`)[0].style.display = 'none';
                     break;
 
             }
@@ -199,13 +200,25 @@
         showScore() {
             if (this.correct === 8) {
                 setTimeout(() => {
-                    const winString = `Congratulations. You win. Star rating: ${this.stars}. You took ${this.seconds} seconds.`
-                    if (confirm(winString)) {
-                        this.restart();
-                    }
+                    const winString = `You win. Star rating: ${this.stars}. You took ${this.seconds} seconds. 
+                    Would you like to play again?`
+
+                    const modalBody = document.querySelector('.modal-body');
+                    modalBody.innerHTML = winString;
+                    this.promptReplay();
+
+                    $('#winModal').modal('show');
                 }, 500);
 
             }
+        }
+
+        promptReplay() {
+            const playAgain = document.querySelector('.play-again');
+
+            playAgain.addEventListener('click', () => {
+                this.restart();
+            })
         }
 
 
